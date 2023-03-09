@@ -1,9 +1,18 @@
 import React, { useRef } from "react";
 import { StyleSheet, SafeAreaView, Button } from "react-native";
 import { SketchCanvas, SketchCanvasRef } from "rn-perfect-sketch-canvas";
+import { ButtonAction } from "./component/ButtonAction";
 
 export default function App() {
   const canvasRef = useRef<SketchCanvasRef>(null);
+
+  const Crear = () => {
+    canvasRef.current?.reset();
+  };
+
+  const GetPoin = () => {
+    console.log(canvasRef.current?.toPoints());
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -13,13 +22,8 @@ export default function App() {
         strokeWidth={8}
         containerStyle={styles.container}
       />
-      <Button onPress={canvasRef.current?.reset} title="Reset" />
-      <Button
-        onPress={() => {
-          console.log(canvasRef.current?.toPoints());
-        }}
-        title="log poin"
-      />
+
+      <ButtonAction Clear={Crear} GetPoin={GetPoin} />
     </SafeAreaView>
   );
 }
