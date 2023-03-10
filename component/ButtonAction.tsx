@@ -1,5 +1,6 @@
+import { Line } from "@shopify/react-native-skia";
 import React from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
 
 import { SketchCanvasRef } from "rn-perfect-sketch-canvas";
 import { windowWidth } from "../Constant";
@@ -8,19 +9,29 @@ import { SelectColor } from "./SelectColor";
 type Props = {
   Clear: () => void;
   GetPoint: () => void;
+  SetPoint: () => void;
 };
 
 export const ButtonAction = (props: Props) => {
-  const { Clear, GetPoint } = props;
+  const { Clear, GetPoint, SetPoint } = props;
 
   return (
     <View style={styles.container}>
-      <SelectColor/>
-      <View style={styles.ButtonReset}>
-        <Button onPress={Clear} title="Reset" />
+      <SelectColor />
+      <View>
+        <TouchableOpacity onPress={Clear}>
+          <Text style={styles.button}>Reset</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.ButtonGetPoint}>
-        <Button onPress={GetPoint} title="log point" />
+      <View>
+        <TouchableOpacity onPress={GetPoint}>
+          <Text style={styles.button}>log point</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity onPress={SetPoint}>
+          <Text style={styles.button}>set point</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -28,21 +39,35 @@ export const ButtonAction = (props: Props) => {
 
 const styles = StyleSheet.create({
   ButtonReset: {
-    width: 100,
+    width: 80,
     height: 50,
-    padding: 3
+    padding: 3,
   },
   ButtonGetPoint: {
-    width: 100,
+    width: 80,
     height: 50,
-    padding: 3
-
+    padding: 3,
   },
   container: {
     flexDirection: "row",
-    width: windowWidth,
     justifyContent: "center",
     alignContent: "center",
-    height: 70
+    height: 70,
+    borderWidth: 1.5,
+    borderColor: "black",
+    padding: 10,
+    marginHorizontal: 10,
+    borderRadius: 6,
+  },
+  button: {
+    width: 60,
+    height: 25,
+    backgroundColor: "#4da6ff",
+    color: "white",
+    justifyContent: "center",
+    textAlign: "center",
+    fontSize: 18,
+    borderRadius: 4,
+    margin: 2,
   },
 });

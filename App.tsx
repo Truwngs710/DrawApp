@@ -1,8 +1,15 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, SafeAreaView, Button, View, TouchableOpacity,Text } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  Button,
+  View,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import { SketchCanvas, SketchCanvasRef } from "rn-perfect-sketch-canvas";
 import { ButtonAction } from "./component/ButtonAction";
-import { colorSelect } from "./Constant";
+import { colorSelect, TestData, windowWidth } from "./Constant";
 import { useStoreColorProps } from "./Sdk/store";
 
 export default function App() {
@@ -17,19 +24,22 @@ export default function App() {
     console.log(canvasRef.current?.toPoints());
   };
 
+  const SetPoint = () => {
+    console.log(canvasRef.current?.addPoints(TestData, { strokeColor: color }));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.Header}></View>
+      <ButtonAction Clear={Clear} GetPoint={GetPoint} SetPoint={SetPoint} />
       <View style={styles.DrawPad}>
-      
-      <SketchCanvas
-        ref={canvasRef}
-        strokeColor={color|| 'black'}
-        strokeWidth={8}
-        containerStyle={styles.container}
+        <SketchCanvas
+          ref={canvasRef}
+          strokeColor={color || "black"}
+          strokeWidth={8}
+          containerStyle={styles.container}
         />
-        </View>
-
-      <ButtonAction Clear={Clear} GetPoint={GetPoint} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -40,12 +50,14 @@ const styles = StyleSheet.create({
   },
   DrawPad: {
     flex: 1,
-    borderWidth: 10,
-    borderColor: 'blue',
+    borderWidth: 2,
+    borderColor: "#99ccff",
     margin: 12,
     borderRadius: 3,
-    shadowColor: 'black',
-
-
-  }
+    shadowColor: "black",
+  },
+  Header: {
+    width: windowWidth,
+    height: 25,
+  },
 });
