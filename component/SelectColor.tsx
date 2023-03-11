@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { TouchableOpacity, View, Text, Modal, StyleSheet } from "react-native";
 import { colorSelect, windowHeight, windowWidth } from "../Constant";
 
-import { useStoreColorProps } from "../Sdk/store";
+import { useSColor } from "../Sdk/store";
 
 export const SelectColor = () => {
-  const color = useStoreColorProps((store) => store.action?.color);
-  const { dispatchAction } = useStoreColorProps();
+  const color = useSColor((store) => store.action?.color);
+  const { dispatchAction } = useSColor();
 
   const [visible, setVisible] = useState(false);
 

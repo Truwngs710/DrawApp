@@ -8,29 +8,29 @@ import { SelectColor } from "./SelectColor";
 
 type Props = {
   Clear: () => void;
-  GetPoint: () => void;
-  SetPoint: () => void;
+  Undo: () => void;
+  Redo: () => void;
 };
 
 export const ButtonAction = (props: Props) => {
-  const { Clear, GetPoint, SetPoint } = props;
+  const { Clear, Undo, Redo } = props;
 
   return (
     <View style={styles.container}>
       <SelectColor />
       <View>
         <TouchableOpacity onPress={Clear}>
-          <Text style={styles.button}>Reset</Text>
+          <Text style={styles.button}>Clear</Text>
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity onPress={GetPoint}>
-          <Text style={styles.button}>log point</Text>
+        <TouchableOpacity onPress={Undo}>
+          <Text style={styles.button}>undo</Text>
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity onPress={SetPoint}>
-          <Text style={styles.button}>set point</Text>
+        <TouchableOpacity onPress={Redo}>
+          <Text style={styles.button}>redo</Text>
         </TouchableOpacity>
       </View>
     </View>

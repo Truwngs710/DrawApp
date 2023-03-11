@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,32 +7,30 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import { SketchCanvas, SketchCanvasRef } from "rn-perfect-sketch-canvas";
+import { Point, SketchCanvas, SketchCanvasRef } from "rn-perfect-sketch-canvas";
 import { ButtonAction } from "./component/ButtonAction";
 import { colorSelect, TestData, windowWidth } from "./Constant";
-import { useStoreColorProps } from "./Sdk/store";
+import { useSColor } from "./Sdk/store";
 
 export default function App() {
-  const canvasRef = useRef<SketchCanvasRef>(null);
-  const color = useStoreColorProps((store) => store.action?.color);
+  const canvasRef = useRef<SketchCanvasRef & View>(null);
+  const color = useSColor((store) => store.action?.color);
+  const [drawData, setDrawData] = useState<Point[][]>();
 
-  const Clear = () => {
-    canvasRef.current?.reset();
-  };
-
-  const GetPoint = () => {
-    console.log(canvasRef.current?.toPoints());
-  };
-
-  const SetPoint = () => {
-    console.log(canvasRef.current?.addPoints(TestData, { strokeColor: color }));
+  const HandleData = () => {
+    setDrawData(canvasRef.current?.toPoints());
+    console.log(drawData);
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.Header}></View>
-      <ButtonAction Clear={Clear} GetPoint={GetPoint} SetPoint={SetPoint} />
-      <View style={styles.DrawPad}>
+      <ButtonAction
+        Clear={() => canvasRef.current?.reset()}
+        Undo={() => canvasRef.current?.undo()}
+        Redo={() => canvasRef.current?.redo()}
+      />
+      <View onTouchEnd={HandleData} ref={canvasRef} style={styles.DrawPad}>
         <SketchCanvas
           ref={canvasRef}
           strokeColor={color || "black"}

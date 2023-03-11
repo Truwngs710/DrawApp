@@ -1,18 +1,27 @@
-import {create} from 'zustand'
+import { create } from "zustand";
 
-export type DispatchAction = (color?: string) => void
+export type DispatchAction = (color?: string) => void;
 
 interface Action {
   action?: {
-    color?: string
-  }
-  dispatchAction: DispatchAction
+    color?: string;
+    data?: [];
+  };
+  dispatchAction: DispatchAction;
 }
 
-export const useStoreColorProps = create<Action>((set, get) => {
+export const useSColor = create<Action>((set, get) => {
   return {
     dispatchAction: (color?: string) => {
-      set({ action: { color } })
-    }
-  }
-})
+      set({ action: { color } });
+    },
+  };
+});
+
+export const useSData = create<Action>((set, get) => {
+  return {
+    dispatchAction: (color?: string, data?: []) => {
+      set({ action: { color, data } });
+    },
+  };
+});
