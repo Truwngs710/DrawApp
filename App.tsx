@@ -11,34 +11,59 @@ import { Point, SketchCanvas, SketchCanvasRef } from "rn-perfect-sketch-canvas";
 import { ButtonAction } from "./component/ButtonAction";
 import { colorSelect, TestData, windowWidth } from "./Constant";
 import { useSColor } from "./Sdk/store";
-import { db } from "./Firebase/firebaseConfig";
-import { ref, set } from "firebase/database";
+import { db } from "./firebaseConfig";
+import { ref, set, push,get,DatabaseReference, onValue, DataSnapshot, update } from "firebase/database";
+import uuid from 'react-native-uuid';
 
+
+type Data ={
+  color: string
+  point: string
+}
 export default function App() {
   const canvasRef = useRef<SketchCanvasRef & View>(null);
-  const color = useSColor((store) => store.action?.color);
+  const color = useSColor((store) => store.action?.color) || '#000000';
   const [drawData, setDrawData] = useState<Point[][]>();
+  const [getData, setGetData] = useState<Data[]>()
+  const [lengthData, setLengthData] = useState<number>(10000)
 
   const Clear = () => {
     canvasRef.current?.reset();
     setDrawData([]);
-    PushData();
   };
 
   const HandleData = () => {
     setDrawData(canvasRef.current?.toPoints());
   };
 
-  const PushData = () => {
-    set(ref(db, "point/"), {
-      title: "aaa",
-    });
+
+
+  const GetData = async () => {
+    const refGet = ref(db, 'TV')
+    onValue(refGet, (snapshot) => {
+      setGetData(snapshot.val())
+      setLengthData(snapshot.val().length)
+    })
+    
+    
   };
 
   useEffect(() => {
+    GetData()
+    console.log(getData);
+
+  },[])
+
+  useEffect(() => {
     let point = drawData && drawData[drawData?.length - 1];
-    let LastDraw = { color, point };
-    console.log(LastDraw);
+    let randomKey = uuid.v4()
+    let LastDraw = { color: point ? color : null , point: point ? JSON.stringify(point) :  null};
+    update(ref(db, 'TV'), {
+      randomKey : LastDraw
+      // ????????
+    });
+
+    
   }, [drawData]);
 
   return (

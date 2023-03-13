@@ -16,6 +16,7 @@
     "firebase": "^9.17.2",
     "react": "18.2.0",
     "react-native": "0.71.3",
+    "react-native-uuid": "^2.0.1",
     "rn-perfect-sketch-canvas": "^0.3.0",
     "zustand": "^4.3.6"
   },

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Draw",
-    "slug": "Draw",
+    "name": "draw",
+    "slug": "draw",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
